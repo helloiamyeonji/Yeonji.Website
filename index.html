@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>你的名字 | 个人简介</title>
+    <meta name="description" content="一个简单的个人简介网站。">
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #ffffff;
+        --text: #1f2933;
+        --muted: #667085;
+        --line: #d0d5dd;
+        --accent: #2563eb;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text);
+        background: var(--bg);
+        line-height: 1.6;
+      }
+
+      main {
+        width: min(720px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 56px 0;
+      }
+
+      header {
+        display: grid;
+        gap: 20px;
+        align-items: center;
+        padding-bottom: 32px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .avatar {
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid var(--line);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2rem, 8vw, 4rem);
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      h2 {
+        margin: 36px 0 12px;
+        font-size: 1rem;
+        letter-spacing: 0;
+        text-transform: uppercase;
+      }
+
+      p {
+        margin: 0 0 14px;
+      }
+
+      a {
+        color: var(--accent);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
+      }
+
+      .tagline {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 1.1rem;
+      }
+
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 20px;
+      }
+
+      .links a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 8px 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: var(--text);
+        text-decoration: none;
+      }
+
+      footer {
+        margin-top: 48px;
+        padding-top: 24px;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #101418;
+          --text: #f3f4f6;
+          --muted: #a3a3a3;
+          --line: #333333;
+          --accent: #8ab4ff;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <img class="avatar" src="avatar.svg" alt="头像">
+        <div>
+          <h1>你的名字</h1>
+          <p class="tagline">一句话介绍你自己，例如：设计师 / 开发者 / 学生。</p>
+          <nav class="links" aria-label="个人链接">
+            <a href="mailto:hello@example.com">Email</a>
+            <a href="https://github.com/yourname">GitHub</a>
+            <a href="https://www.linkedin.com/in/yourname">LinkedIn</a>
+          </nav>
+        </div>
+      </header>
+
+      <section>
+        <h2>关于我</h2>
+        <p>在这里写一小段自我介绍。可以介绍你的背景、兴趣、正在学习或正在做的事情。</p>
+      </section>
+
+      <section>
+        <h2>项目</h2>
+        <p><strong>项目名称</strong>：用一句话说明这个项目做了什么。</p>
+        <p><strong>项目名称</strong>：再放一个你想展示的作品。</p>
+      </section>
+
+      <section>
+        <h2>联系</h2>
+        <p>欢迎通过 <a href="mailto:hello@example.com">hello@example.com</a> 联系我。</p>
+      </section>
+
+      <footer>
+        <p>© 2026 你的名字</p>
+      </footer>
+    </main>
+  </body>
+</html>
