@@ -1,10 +1,11 @@
 const capybara = document.getElementById('capybara');
+const hometownSection = document.getElementById('hometown');
+const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
 if (capybara) {
   let dragState = null;
   let releaseTimer = null;
-
-  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+  let fallFrame = null;
 
   const setDragPosition = (left, top, rotate) => {
     capybara.style.setProperty('--drag-left', `${left}px`);
@@ -18,6 +19,7 @@ if (capybara) {
     }
 
     window.clearTimeout(releaseTimer);
+    window.cancelAnimationFrame(fallFrame);
 
     const rect = capybara.getBoundingClientRect();
     dragState = {
@@ -31,6 +33,8 @@ if (capybara) {
 
     setDragPosition(rect.left, rect.top, 0);
     capybara.classList.remove('is-released');
+    capybara.classList.remove('is-falling');
+    capybara.classList.remove('is-grounded');
     capybara.classList.add('is-dragging');
     capybara.setPointerCapture(event.pointerId);
     event.preventDefault();
@@ -69,17 +73,59 @@ if (capybara) {
 
     dragState = null;
     capybara.classList.remove('is-dragging');
-    capybara.classList.add('is-released');
+    capybara.classList.add('is-falling');
     capybara.style.setProperty('--pull-rotate', '0deg');
 
-    releaseTimer = window.setTimeout(() => {
-      capybara.classList.remove('is-released');
-      capybara.removeAttribute('style');
-    }, 850);
+    const rect = capybara.getBoundingClientRect();
+    const groundTop = window.innerHeight - rect.height - 50;
+    let top = rect.top;
+    let velocity = 0;
+    let lastTime = performance.now();
+
+    const fall = (time) => {
+      const delta = Math.min((time - lastTime) / 1000, 0.04);
+      lastTime = time;
+      velocity += 2600 * delta;
+      top += velocity * delta;
+
+      if (top >= groundTop) {
+        top = groundTop;
+        velocity *= -0.28;
+
+        if (Math.abs(velocity) < 120) {
+          setDragPosition(rect.left, groundTop, 0);
+          capybara.classList.remove('is-falling');
+          capybara.classList.add('is-grounded');
+          releaseTimer = window.setTimeout(() => {
+            capybara.classList.remove('is-grounded');
+            capybara.removeAttribute('style');
+          }, 1200);
+          return;
+        }
+      }
+
+      setDragPosition(rect.left, top, 0);
+      fallFrame = window.requestAnimationFrame(fall);
+    };
+
+    fallFrame = window.requestAnimationFrame(fall);
   };
 
   capybara.addEventListener('pointerdown', beginDrag);
   capybara.addEventListener('pointermove', moveDrag);
   capybara.addEventListener('pointerup', endDrag);
   capybara.addEventListener('pointercancel', endDrag);
+}
+
+if (hometownSection) {
+  const updateHometown = () => {
+    const rect = hometownSection.getBoundingClientRect();
+    const progress = clamp(-rect.top / (rect.height - window.innerHeight), 0, 1);
+    hometownSection.style.setProperty('--hometown-progress', progress);
+    hometownSection.classList.toggle('is-expanded', progress > 0.42);
+  };
+
+  updateHometown();
+  window.addEventListener('scroll', updateHometown, { passive: true });
+  window.addEventListener('resize', updateHometown);
 }
