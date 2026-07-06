@@ -2,7 +2,7 @@
   --color-brand-yellow: #f7ea48;
   --color-brand-blue: #004b87;
   --color-dark-background: #222;
-  --color-light-background: #f1f1f1;
+  --color-light-background: #fff4bf;
   --color-logo-i-fill-color-on-light-background: var(--color-brand-blue);
   --color-logo-other-fill-color-on-light-background: #52504e;
   --color-logo-i-fill-color-on-dark-background: var(--color-brand-yellow);
@@ -19,6 +19,10 @@
   --capybara-fur-light: #c59a70;
   --capybara-fur-stroke: #d5b38b;
   --capybara-shadow: rgb(0 0 0 / 16%);
+  --homepage-yellow: #fff2b3;
+  --homepage-yellow-deep: #ffe58a;
+  --homepage-name: #7a5626;
+  --homepage-name-accent: #df7a88;
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -31,13 +35,11 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-background: var(--color-dark-background);
-    --color-logo-i-fill-color: var(--color-logo-i-fill-color-on-dark-background);
-    --color-logo-other-fill-color: var(
-      --color-logo-other-fill-color-on-dark-background
-    );
-    --color-cta-icon-normal: #eee;
-    --color-cta-icon-active: #ccc;
+    --color-background: var(--homepage-yellow);
+    --color-logo-i-fill-color: var(--homepage-name-accent);
+    --color-logo-other-fill-color: var(--homepage-name);
+    --color-cta-icon-normal: #5f4725;
+    --color-cta-icon-active: #9d6e34;
     --capybara-shadow: rgb(255 255 255 / 10%);
   }
 }
@@ -71,6 +73,9 @@ body {
   min-height: 560px;
   position: relative;
   overflow: hidden;
+  background:
+    radial-gradient(circle at 18% 18%, rgb(255 255 255 / 42%) 0 8%, transparent 24%),
+    linear-gradient(160deg, var(--homepage-yellow) 0%, #fff8d7 52%, var(--homepage-yellow-deep) 100%);
 }
 
 .header {
@@ -83,11 +88,14 @@ body {
   justify-content: center;
   gap: 18px;
   margin: 0;
-  color: var(--color-logo-other-fill-color);
+  color: var(--homepage-name);
   font-size: 70px;
   line-height: 0.95;
   font-weight: 850;
   letter-spacing: 0;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 5px 0 rgb(255 255 255 / 36%);
 }
 
 .logo-text {
@@ -95,7 +103,80 @@ body {
 }
 
 .accent {
-  color: var(--color-logo-i-fill-color);
+  color: var(--homepage-name-accent);
+}
+
+.flower-field {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.flower {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  opacity: 0.82;
+  background:
+    radial-gradient(circle at 50% 50%, #f5b84f 0 16%, transparent 17%),
+    radial-gradient(circle at 50% 12%, #fff 0 18%, transparent 19%),
+    radial-gradient(circle at 88% 50%, #fff 0 18%, transparent 19%),
+    radial-gradient(circle at 50% 88%, #fff 0 18%, transparent 19%),
+    radial-gradient(circle at 12% 50%, #fff 0 18%, transparent 19%);
+  filter: drop-shadow(0 7px 8px rgb(156 112 30 / 13%));
+  animation: flower-float 11s ease-in-out infinite;
+}
+
+.flower-one {
+  left: 9%;
+  top: 21%;
+}
+
+.flower-two {
+  left: 76%;
+  top: 14%;
+  width: 26px;
+  height: 26px;
+  animation-duration: 13s;
+  animation-delay: -4s;
+}
+
+.flower-three {
+  left: 83%;
+  top: 66%;
+  width: 38px;
+  height: 38px;
+  animation-duration: 15s;
+  animation-delay: -8s;
+}
+
+.flower-four {
+  left: 18%;
+  top: 72%;
+  width: 24px;
+  height: 24px;
+  animation-duration: 12s;
+  animation-delay: -6s;
+}
+
+.flower-five {
+  left: 58%;
+  top: 25%;
+  width: 30px;
+  height: 30px;
+  animation-duration: 16s;
+  animation-delay: -2s;
+}
+
+.flower-six {
+  left: 36%;
+  top: 13%;
+  width: 22px;
+  height: 22px;
+  animation-duration: 14s;
+  animation-delay: -10s;
 }
 
 .footer {
@@ -108,6 +189,8 @@ body {
   flex-wrap: nowrap;
   padding: 0;
   margin: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .footer li {
@@ -203,6 +286,11 @@ body {
   filter: drop-shadow(0 16px 16px rgb(0 0 0 / 18%));
 }
 
+.capybara.is-dragging .capybara-image {
+  animation: capybara-tantrum 280ms ease-in-out infinite;
+  transform-origin: 48% 78%;
+}
+
 .capybara.is-grounded {
   transition:
     transform 180ms ease,
@@ -249,6 +337,10 @@ body {
 .capybara.is-falling .cry-bubble {
   opacity: 1;
   transform: translateY(0) scale(1);
+}
+
+.capybara.is-dragging .cry-bubble {
+  animation: bubble-panic 360ms ease-in-out infinite alternate;
 }
 
 .shadow {
@@ -452,6 +544,60 @@ body {
   to {
     opacity: 0;
     transform: translateY(13px) scale(1.05);
+  }
+}
+
+@keyframes flower-float {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  35% {
+    transform: translate3d(16px, -24px, 0) rotate(19deg);
+  }
+
+  70% {
+    transform: translate3d(-12px, 18px, 0) rotate(-14deg);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+@keyframes capybara-tantrum {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+
+  18% {
+    transform: translate(-5px, 3px) rotate(-4deg) scaleX(1.03);
+  }
+
+  36% {
+    transform: translate(5px, -2px) rotate(4deg) scaleY(0.97);
+  }
+
+  54% {
+    transform: translate(-4px, -3px) rotate(-3deg) scaleX(0.98);
+  }
+
+  72% {
+    transform: translate(4px, 2px) rotate(3deg) scaleY(1.03);
+  }
+
+  100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+}
+
+@keyframes bubble-panic {
+  from {
+    transform: translateY(0) scale(1) rotate(-2deg);
+  }
+
+  to {
+    transform: translateY(-5px) scale(1.04) rotate(2deg);
   }
 }
 
@@ -885,6 +1031,7 @@ body {
   .ear-left,
   .ear-right,
   .nose,
+  .flower,
   .leg-front,
   .leg-front-alt,
   .leg-back,
@@ -892,6 +1039,11 @@ body {
   .tear-one,
   .tear-two,
   .see-more {
+    animation: none;
+  }
+
+  .capybara.is-dragging .capybara-image,
+  .capybara.is-dragging .cry-bubble {
     animation: none;
   }
 

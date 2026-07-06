@@ -3,8 +3,13 @@ const hometownSection = document.getElementById('hometown');
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
 if (capybara) {
+  const cryBubble = capybara.querySelector('.cry-bubble');
+  const capybaraCries = [
+    'Let me go!',
+    'Please put me down!',
+    'Hey, I need the floor!',
+  ];
   let dragState = null;
-  let releaseTimer = null;
   let fallFrame = null;
 
   const setDragPosition = (left, top, rotate) => {
@@ -18,7 +23,6 @@ if (capybara) {
       return;
     }
 
-    window.clearTimeout(releaseTimer);
     window.cancelAnimationFrame(fallFrame);
 
     const rect = capybara.getBoundingClientRect();
@@ -32,7 +36,11 @@ if (capybara) {
     };
 
     setDragPosition(rect.left, rect.top, 0);
-    capybara.classList.remove('is-released');
+    if (cryBubble) {
+      cryBubble.textContent =
+        capybaraCries[Math.floor(Math.random() * capybaraCries.length)];
+    }
+
     capybara.classList.remove('is-falling');
     capybara.classList.remove('is-grounded');
     capybara.classList.add('is-dragging');
@@ -77,8 +85,9 @@ if (capybara) {
     capybara.style.setProperty('--pull-rotate', '0deg');
 
     const rect = capybara.getBoundingClientRect();
+    const releasedLeft = rect.left;
     const groundTop = window.innerHeight - rect.height - 50;
-    let top = rect.top;
+    let top = Math.min(rect.top, groundTop);
     let velocity = 0;
     let lastTime = performance.now();
 
@@ -93,18 +102,14 @@ if (capybara) {
         velocity *= -0.28;
 
         if (Math.abs(velocity) < 120) {
-          setDragPosition(rect.left, groundTop, 0);
+          setDragPosition(releasedLeft, groundTop, 0);
           capybara.classList.remove('is-falling');
           capybara.classList.add('is-grounded');
-          releaseTimer = window.setTimeout(() => {
-            capybara.classList.remove('is-grounded');
-            capybara.removeAttribute('style');
-          }, 1200);
           return;
         }
       }
 
-      setDragPosition(rect.left, top, 0);
+      setDragPosition(releasedLeft, top, 0);
       fallFrame = window.requestAnimationFrame(fall);
     };
 
