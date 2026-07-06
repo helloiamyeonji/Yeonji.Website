@@ -1,5 +1,5 @@
 const capybara = document.getElementById('capybara');
-const hometownSection = document.getElementById('hometown');
+const revealSections = document.querySelectorAll('[data-reveal-section]');
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
 if (capybara) {
@@ -122,15 +122,18 @@ if (capybara) {
   capybara.addEventListener('pointercancel', endDrag);
 }
 
-if (hometownSection) {
-  const updateHometown = () => {
-    const rect = hometownSection.getBoundingClientRect();
-    const progress = clamp(-rect.top / (rect.height - window.innerHeight), 0, 1);
-    hometownSection.style.setProperty('--hometown-progress', progress);
-    hometownSection.classList.toggle('is-expanded', progress > 0.42);
+if (revealSections.length > 0) {
+  const updateRevealSections = () => {
+    revealSections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      const travelDistance = Math.max(rect.height - window.innerHeight, 1);
+      const progress = clamp(-rect.top / travelDistance, 0, 1);
+      section.style.setProperty('--section-progress', progress);
+      section.classList.toggle('is-expanded', progress > 0.42);
+    });
   };
 
-  updateHometown();
-  window.addEventListener('scroll', updateHometown, { passive: true });
-  window.addEventListener('resize', updateHometown);
+  updateRevealSections();
+  window.addEventListener('scroll', updateRevealSections, { passive: true });
+  window.addEventListener('resize', updateRevealSections);
 }
