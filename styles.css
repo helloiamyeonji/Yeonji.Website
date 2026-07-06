@@ -1018,6 +1018,90 @@ body {
   font-weight: 850;
 }
 
+.experience-section {
+  position: relative;
+  height: 220vh;
+  background:
+    radial-gradient(circle at 14% 22%, rgb(255 255 255 / 70%) 0 8%, transparent 23%),
+    linear-gradient(145deg, #fff8ee 0%, #f7eef4 48%, #edf7ff 100%);
+  color: #2f3136;
+}
+
+.experience-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 620px;
+  overflow: hidden;
+}
+
+.experience-title {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  color: #665a55;
+  font-size: clamp(54px, 10vw, 132px);
+  line-height: 0.9;
+  font-weight: 850;
+  letter-spacing: 0;
+  transition:
+    font-size 240ms ease,
+    color 240ms ease,
+    left 360ms ease,
+    top 360ms ease,
+    transform 360ms ease;
+}
+
+.experience-section.is-expanded .experience-title {
+  left: min(72px, 7vw);
+  top: 72px;
+  transform: translate(0, 0);
+  color: #b06b5e;
+  font-size: clamp(36px, 5vw, 72px);
+}
+
+.experience-content {
+  position: absolute;
+  left: 50%;
+  top: 150px;
+  width: min(1060px, calc(100vw - 72px));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 420px);
+  gap: clamp(34px, 6vw, 86px);
+  align-items: center;
+  opacity: 0;
+  transform: translate(-50%, 28px);
+  transition:
+    opacity 320ms ease,
+    transform 320ms ease;
+}
+
+.experience-section.is-expanded .experience-content {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.experience-content p {
+  margin: 0;
+  color: #30323a;
+  font-size: clamp(26px, 3.8vw, 52px);
+  line-height: 1.18;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.experience-image {
+  width: min(100%, 400px);
+  max-height: min(68vh, 620px);
+  justify-self: center;
+  object-fit: contain;
+  border-radius: 8px;
+  filter: drop-shadow(0 24px 30px rgb(94 63 46 / 16%));
+}
+
 @keyframes landed-squash {
   0% {
     transform: scaleY(1) translateY(0);
@@ -1122,7 +1206,8 @@ body {
   }
 
   .hometown-title,
-  .skills-title {
+  .skills-title,
+  .experience-title {
     left: 50%;
     top: 50%;
   }
@@ -1136,7 +1221,16 @@ body {
     min-height: 620px;
   }
 
+  .experience-sticky {
+    min-height: 640px;
+  }
+
   .skills-section.is-expanded .skills-title {
+    left: 28px;
+    top: 46px;
+  }
+
+  .experience-section.is-expanded .experience-title {
     left: 28px;
     top: 46px;
   }
@@ -1157,6 +1251,25 @@ body {
   .skills-grid {
     grid-template-columns: 1fr;
     gap: 32px;
+  }
+
+  .experience-content {
+    left: 28px;
+    right: 28px;
+    top: 128px;
+    width: auto;
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .experience-content p {
+    font-size: clamp(22px, 6vw, 30px);
+    line-height: 1.24;
+  }
+
+  .experience-image {
+    width: min(76vw, 300px);
+    max-height: min(44vh, 380px);
   }
 
   .skill-column h3 {
